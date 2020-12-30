@@ -1,0 +1,511 @@
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"app_ethernet.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.User_notification,"ax",%progbits
+  18              		.align	1
+  19              		.global	User_notification
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv5-sp-d16
+  26              	User_notification:
+  27              	.LVL0:
+  28              	.LFB171:
+  29              		.file 1 "Core/Src/app_ethernet.c"
+   1:Core/Src/app_ethernet.c **** /**
+   2:Core/Src/app_ethernet.c ****   ******************************************************************************
+   3:Core/Src/app_ethernet.c ****   * @file    LwIP/LwIP_HTTP_Server_Netconn_RTOS/Src/app_ethernet.c 
+   4:Core/Src/app_ethernet.c ****   * @author  MCD Application Team
+   5:Core/Src/app_ethernet.c ****   * @brief   Ethernet specefic module
+   6:Core/Src/app_ethernet.c ****   ******************************************************************************
+   7:Core/Src/app_ethernet.c ****   * @attention
+   8:Core/Src/app_ethernet.c ****   *
+   9:Core/Src/app_ethernet.c ****   * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics International N.V. 
+  10:Core/Src/app_ethernet.c ****   * All rights reserved.</center></h2>
+  11:Core/Src/app_ethernet.c ****   *
+  12:Core/Src/app_ethernet.c ****   * Redistribution and use in source and binary forms, with or without 
+  13:Core/Src/app_ethernet.c ****   * modification, are permitted, provided that the following conditions are met:
+  14:Core/Src/app_ethernet.c ****   *
+  15:Core/Src/app_ethernet.c ****   * 1. Redistribution of source code must retain the above copyright notice, 
+  16:Core/Src/app_ethernet.c ****   *    this list of conditions and the following disclaimer.
+  17:Core/Src/app_ethernet.c ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  18:Core/Src/app_ethernet.c ****   *    this list of conditions and the following disclaimer in the documentation
+  19:Core/Src/app_ethernet.c ****   *    and/or other materials provided with the distribution.
+  20:Core/Src/app_ethernet.c ****   * 3. Neither the name of STMicroelectronics nor the names of other 
+  21:Core/Src/app_ethernet.c ****   *    contributors to this software may be used to endorse or promote products 
+  22:Core/Src/app_ethernet.c ****   *    derived from this software without specific written permission.
+  23:Core/Src/app_ethernet.c ****   * 4. This software, including modifications and/or derivative works of this 
+  24:Core/Src/app_ethernet.c ****   *    software, must execute solely and exclusively on microcontroller or
+  25:Core/Src/app_ethernet.c ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  26:Core/Src/app_ethernet.c ****   * 5. Redistribution and use of this software other than as permitted under 
+  27:Core/Src/app_ethernet.c ****   *    this license is void and will automatically terminate your rights under 
+  28:Core/Src/app_ethernet.c ****   *    this license. 
+  29:Core/Src/app_ethernet.c ****   *
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 2
+
+
+  30:Core/Src/app_ethernet.c ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  31:Core/Src/app_ethernet.c ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  32:Core/Src/app_ethernet.c ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  33:Core/Src/app_ethernet.c ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  34:Core/Src/app_ethernet.c ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  35:Core/Src/app_ethernet.c ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  36:Core/Src/app_ethernet.c ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  37:Core/Src/app_ethernet.c ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  38:Core/Src/app_ethernet.c ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  39:Core/Src/app_ethernet.c ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  40:Core/Src/app_ethernet.c ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  41:Core/Src/app_ethernet.c ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  42:Core/Src/app_ethernet.c ****   *
+  43:Core/Src/app_ethernet.c ****   ******************************************************************************
+  44:Core/Src/app_ethernet.c ****   */
+  45:Core/Src/app_ethernet.c **** 
+  46:Core/Src/app_ethernet.c **** /* Includes ------------------------------------------------------------------*/
+  47:Core/Src/app_ethernet.c **** #include "lwip/opt.h"
+  48:Core/Src/app_ethernet.c **** #include "main.h"
+  49:Core/Src/app_ethernet.c **** #include "lwip/dhcp.h"
+  50:Core/Src/app_ethernet.c **** #include "app_ethernet.h"
+  51:Core/Src/app_ethernet.c **** #include "ethernetif.h"
+  52:Core/Src/app_ethernet.c **** 
+  53:Core/Src/app_ethernet.c **** /* Private typedef -----------------------------------------------------------*/
+  54:Core/Src/app_ethernet.c **** /* Private define ------------------------------------------------------------*/
+  55:Core/Src/app_ethernet.c **** /* Private macro -------------------------------------------------------------*/
+  56:Core/Src/app_ethernet.c **** /* Private variables ---------------------------------------------------------*/
+  57:Core/Src/app_ethernet.c **** #ifdef USE_DHCP
+  58:Core/Src/app_ethernet.c **** #define MAX_DHCP_TRIES  4
+  59:Core/Src/app_ethernet.c **** __IO uint8_t DHCP_state = DHCP_OFF;
+  60:Core/Src/app_ethernet.c **** #endif
+  61:Core/Src/app_ethernet.c **** 
+  62:Core/Src/app_ethernet.c **** /* Private function prototypes -----------------------------------------------*/
+  63:Core/Src/app_ethernet.c **** /* Private functions ---------------------------------------------------------*/
+  64:Core/Src/app_ethernet.c **** /**
+  65:Core/Src/app_ethernet.c ****   * @brief  Notify the User about the network interface config status
+  66:Core/Src/app_ethernet.c ****   * @param  netif: the network interface
+  67:Core/Src/app_ethernet.c ****   * @retval None
+  68:Core/Src/app_ethernet.c ****   */
+  69:Core/Src/app_ethernet.c **** void User_notification(struct netif *netif) 
+  70:Core/Src/app_ethernet.c **** {
+  30              		.loc 1 70 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 70 1 is_stmt 0 view .LVU1
+  35 0000 08B5     		push	{r3, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 3, -8
+  39              		.cfi_offset 14, -4
+  71:Core/Src/app_ethernet.c ****   if (netif_is_up(netif))
+  40              		.loc 1 71 3 is_stmt 1 view .LVU2
+  41              		.loc 1 71 7 is_stmt 0 view .LVU3
+  42 0002 90F83130 		ldrb	r3, [r0, #49]	@ zero_extendqisi2
+  43              		.loc 1 71 6 view .LVU4
+  44 0006 13F0010F 		tst	r3, #1
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 3
+
+
+  45 000a 03D0     		beq	.L2
+  72:Core/Src/app_ethernet.c ****   {
+  73:Core/Src/app_ethernet.c **** #ifdef USE_DHCP
+  74:Core/Src/app_ethernet.c ****     /* Update DHCP state machine */
+  75:Core/Src/app_ethernet.c ****     DHCP_state = DHCP_START;
+  46              		.loc 1 75 5 is_stmt 1 view .LVU5
+  47              		.loc 1 75 16 is_stmt 0 view .LVU6
+  48 000c 054B     		ldr	r3, .L5
+  49 000e 0122     		movs	r2, #1
+  50 0010 1A70     		strb	r2, [r3]
+  51              	.LVL1:
+  52              	.L1:
+  76:Core/Src/app_ethernet.c **** #else
+  77:Core/Src/app_ethernet.c ****     /* Turn On LED 1 to indicate ETH and LwIP init success*/
+  78:Core/Src/app_ethernet.c ****     BSP_LED_On(LED1);
+  79:Core/Src/app_ethernet.c **** #endif /* USE_DHCP */
+  80:Core/Src/app_ethernet.c ****   }
+  81:Core/Src/app_ethernet.c ****   else
+  82:Core/Src/app_ethernet.c ****   {  
+  83:Core/Src/app_ethernet.c **** #ifdef USE_DHCP
+  84:Core/Src/app_ethernet.c ****     /* Update DHCP state machine */
+  85:Core/Src/app_ethernet.c ****     DHCP_state = DHCP_LINK_DOWN;
+  86:Core/Src/app_ethernet.c **** #endif  /* USE_DHCP */
+  87:Core/Src/app_ethernet.c ****    /* Turn On LED 3 to indicate ETH and LwIP init error */
+  88:Core/Src/app_ethernet.c ****    BSP_LED_On(LED3);
+  89:Core/Src/app_ethernet.c ****   } 
+  90:Core/Src/app_ethernet.c **** }
+  53              		.loc 1 90 1 view .LVU7
+  54 0012 08BD     		pop	{r3, pc}
+  55              	.LVL2:
+  56              	.L2:
+  85:Core/Src/app_ethernet.c **** #endif  /* USE_DHCP */
+  57              		.loc 1 85 5 is_stmt 1 view .LVU8
+  85:Core/Src/app_ethernet.c **** #endif  /* USE_DHCP */
+  58              		.loc 1 85 16 is_stmt 0 view .LVU9
+  59 0014 034B     		ldr	r3, .L5
+  60 0016 0522     		movs	r2, #5
+  61 0018 1A70     		strb	r2, [r3]
+  88:Core/Src/app_ethernet.c ****   } 
+  62              		.loc 1 88 4 is_stmt 1 view .LVU10
+  63 001a 0220     		movs	r0, #2
+  64              	.LVL3:
+  88:Core/Src/app_ethernet.c ****   } 
+  65              		.loc 1 88 4 is_stmt 0 view .LVU11
+  66 001c FFF7FEFF 		bl	BSP_LED_On
+  67              	.LVL4:
+  68              		.loc 1 90 1 view .LVU12
+  69 0020 F7E7     		b	.L1
+  70              	.L6:
+  71 0022 00BF     		.align	2
+  72              	.L5:
+  73 0024 00000000 		.word	.LANCHOR0
+  74              		.cfi_endproc
+  75              	.LFE171:
+  77              		.section	.text.DHCP_thread,"ax",%progbits
+  78              		.align	1
+  79              		.global	DHCP_thread
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 4
+
+
+  80              		.syntax unified
+  81              		.thumb
+  82              		.thumb_func
+  83              		.fpu fpv5-sp-d16
+  85              	DHCP_thread:
+  86              	.LVL5:
+  87              	.LFB172:
+  91:Core/Src/app_ethernet.c **** 
+  92:Core/Src/app_ethernet.c **** #ifdef USE_DHCP
+  93:Core/Src/app_ethernet.c **** /**
+  94:Core/Src/app_ethernet.c **** * @brief  DHCP Process
+  95:Core/Src/app_ethernet.c **** * @param  argument: network interface
+  96:Core/Src/app_ethernet.c **** * @retval None
+  97:Core/Src/app_ethernet.c **** */
+  98:Core/Src/app_ethernet.c **** void DHCP_thread(void const * argument)
+  99:Core/Src/app_ethernet.c **** {
+  88              		.loc 1 99 1 is_stmt 1 view -0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 16
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              		.loc 1 99 1 is_stmt 0 view .LVU14
+  93 0000 10B5     		push	{r4, lr}
+  94              	.LCFI1:
+  95              		.cfi_def_cfa_offset 8
+  96              		.cfi_offset 4, -8
+  97              		.cfi_offset 14, -4
+  98 0002 84B0     		sub	sp, sp, #16
+  99              	.LCFI2:
+ 100              		.cfi_def_cfa_offset 24
+ 101 0004 0446     		mov	r4, r0
+ 100:Core/Src/app_ethernet.c ****   struct netif *netif = (struct netif *) argument;
+ 102              		.loc 1 100 3 is_stmt 1 view .LVU15
+ 103              	.LVL6:
+ 104              		.loc 1 100 3 is_stmt 0 view .LVU16
+ 105 0006 3AE0     		b	.L13
+ 106              	.LVL7:
+ 107              	.L8:
+ 101:Core/Src/app_ethernet.c ****   ip_addr_t ipaddr;
+ 102:Core/Src/app_ethernet.c ****   ip_addr_t netmask;
+ 103:Core/Src/app_ethernet.c ****   ip_addr_t gw;
+ 104:Core/Src/app_ethernet.c ****   struct dhcp *dhcp;
+ 105:Core/Src/app_ethernet.c ****   
+ 106:Core/Src/app_ethernet.c ****   for (;;)
+ 107:Core/Src/app_ethernet.c ****   {
+ 108:Core/Src/app_ethernet.c ****     switch (DHCP_state)
+ 109:Core/Src/app_ethernet.c ****     {
+ 110:Core/Src/app_ethernet.c ****     case DHCP_START:
+ 111:Core/Src/app_ethernet.c ****       {
+ 112:Core/Src/app_ethernet.c ****         ip_addr_set_zero_ip4(&netif->ip_addr);
+ 113:Core/Src/app_ethernet.c ****         ip_addr_set_zero_ip4(&netif->netmask);
+ 114:Core/Src/app_ethernet.c ****         ip_addr_set_zero_ip4(&netif->gw);       
+ 115:Core/Src/app_ethernet.c ****         dhcp_start(netif);
+ 116:Core/Src/app_ethernet.c ****         DHCP_state = DHCP_WAIT_ADDRESS;
+ 117:Core/Src/app_ethernet.c ****       }
+ 118:Core/Src/app_ethernet.c ****       break;
+ 119:Core/Src/app_ethernet.c ****       
+ 120:Core/Src/app_ethernet.c ****     case DHCP_WAIT_ADDRESS:
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 5
+
+
+ 121:Core/Src/app_ethernet.c ****       {                
+ 122:Core/Src/app_ethernet.c ****         if (dhcp_supplied_address(netif)) 
+ 108              		.loc 1 122 9 is_stmt 1 view .LVU17
+ 109              		.loc 1 122 13 is_stmt 0 view .LVU18
+ 110 0008 2046     		mov	r0, r4
+ 111 000a FFF7FEFF 		bl	dhcp_supplied_address
+ 112              	.LVL8:
+ 113              		.loc 1 122 12 view .LVU19
+ 114 000e F8B9     		cbnz	r0, .L15
+ 123:Core/Src/app_ethernet.c ****         {
+ 124:Core/Src/app_ethernet.c ****           DHCP_state = DHCP_ADDRESS_ASSIGNED;	
+ 125:Core/Src/app_ethernet.c ****           
+ 126:Core/Src/app_ethernet.c ****           BSP_LED_Off(LED3);
+ 127:Core/Src/app_ethernet.c ****           BSP_LED_On(LED1); 
+ 128:Core/Src/app_ethernet.c ****         }
+ 129:Core/Src/app_ethernet.c ****         else
+ 130:Core/Src/app_ethernet.c ****         {
+ 131:Core/Src/app_ethernet.c ****           dhcp = (struct dhcp *)netif_get_client_data(netif, LWIP_NETIF_CLIENT_DATA_INDEX_DHCP);
+ 115              		.loc 1 131 11 is_stmt 1 view .LVU20
+ 116              		.loc 1 131 16 is_stmt 0 view .LVU21
+ 117 0010 636A     		ldr	r3, [r4, #36]
+ 118              	.LVL9:
+ 132:Core/Src/app_ethernet.c ****     
+ 133:Core/Src/app_ethernet.c ****           /* DHCP timeout */
+ 134:Core/Src/app_ethernet.c ****           if (dhcp->tries > MAX_DHCP_TRIES)
+ 119              		.loc 1 134 11 is_stmt 1 view .LVU22
+ 120              		.loc 1 134 19 is_stmt 0 view .LVU23
+ 121 0012 9B79     		ldrb	r3, [r3, #6]	@ zero_extendqisi2
+ 122              	.LVL10:
+ 123              		.loc 1 134 14 view .LVU24
+ 124 0014 042B     		cmp	r3, #4
+ 125 0016 25D9     		bls	.L12
+ 135:Core/Src/app_ethernet.c ****           {
+ 136:Core/Src/app_ethernet.c ****             DHCP_state = DHCP_TIMEOUT;
+ 126              		.loc 1 136 13 is_stmt 1 view .LVU25
+ 127              		.loc 1 136 24 is_stmt 0 view .LVU26
+ 128 0018 234B     		ldr	r3, .L16
+ 129 001a 0422     		movs	r2, #4
+ 130 001c 1A70     		strb	r2, [r3]
+ 137:Core/Src/app_ethernet.c ****             
+ 138:Core/Src/app_ethernet.c ****             /* Stop DHCP */
+ 139:Core/Src/app_ethernet.c ****             dhcp_stop(netif);
+ 131              		.loc 1 139 13 is_stmt 1 view .LVU27
+ 132 001e 2046     		mov	r0, r4
+ 133 0020 FFF7FEFF 		bl	dhcp_stop
+ 134              	.LVL11:
+ 140:Core/Src/app_ethernet.c ****             
+ 141:Core/Src/app_ethernet.c ****             /* Static address used */
+ 142:Core/Src/app_ethernet.c ****             IP_ADDR4(&ipaddr, IP_ADDR0 ,IP_ADDR1 , IP_ADDR2 , IP_ADDR3 );
+ 135              		.loc 1 142 13 view .LVU28
+ 136 0024 214B     		ldr	r3, .L16+4
+ 137 0026 0393     		str	r3, [sp, #12]
+ 143:Core/Src/app_ethernet.c ****             IP_ADDR4(&netmask, NETMASK_ADDR0, NETMASK_ADDR1, NETMASK_ADDR2, NETMASK_ADDR3);
+ 138              		.loc 1 143 13 view .LVU29
+ 139 0028 6FF07F43 		mvn	r3, #-16777216
+ 140 002c 0293     		str	r3, [sp, #8]
+ 144:Core/Src/app_ethernet.c ****             IP_ADDR4(&gw, GW_ADDR0, GW_ADDR1, GW_ADDR2, GW_ADDR3);
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 6
+
+
+ 141              		.loc 1 144 13 view .LVU30
+ 142 002e 03F52843 		add	r3, r3, #43008
+ 143 0032 C133     		adds	r3, r3, #193
+ 144 0034 0193     		str	r3, [sp, #4]
+ 145:Core/Src/app_ethernet.c ****             netif_set_addr(netif, ip_2_ip4(&ipaddr), ip_2_ip4(&netmask), ip_2_ip4(&gw));
+ 145              		.loc 1 145 13 view .LVU31
+ 146 0036 01AB     		add	r3, sp, #4
+ 147 0038 02AA     		add	r2, sp, #8
+ 148 003a 03A9     		add	r1, sp, #12
+ 149 003c 2046     		mov	r0, r4
+ 150 003e FFF7FEFF 		bl	netif_set_addr
+ 151              	.LVL12:
+ 146:Core/Src/app_ethernet.c **** 
+ 147:Core/Src/app_ethernet.c ****             BSP_LED_Off(LED3);
+ 152              		.loc 1 147 13 view .LVU32
+ 153 0042 0220     		movs	r0, #2
+ 154 0044 FFF7FEFF 		bl	BSP_LED_Off
+ 155              	.LVL13:
+ 148:Core/Src/app_ethernet.c ****             BSP_LED_On(LED1);
+ 156              		.loc 1 148 13 view .LVU33
+ 157 0048 0020     		movs	r0, #0
+ 158 004a FFF7FEFF 		bl	BSP_LED_On
+ 159              	.LVL14:
+ 160 004e 13E0     		b	.L10
+ 161              	.L15:
+ 124:Core/Src/app_ethernet.c ****           
+ 162              		.loc 1 124 11 view .LVU34
+ 124:Core/Src/app_ethernet.c ****           
+ 163              		.loc 1 124 22 is_stmt 0 view .LVU35
+ 164 0050 154B     		ldr	r3, .L16
+ 165 0052 0322     		movs	r2, #3
+ 166 0054 1A70     		strb	r2, [r3]
+ 126:Core/Src/app_ethernet.c ****           BSP_LED_On(LED1); 
+ 167              		.loc 1 126 11 is_stmt 1 view .LVU36
+ 168 0056 0220     		movs	r0, #2
+ 169 0058 FFF7FEFF 		bl	BSP_LED_Off
+ 170              	.LVL15:
+ 127:Core/Src/app_ethernet.c ****         }
+ 171              		.loc 1 127 11 view .LVU37
+ 172 005c 0020     		movs	r0, #0
+ 173 005e FFF7FEFF 		bl	BSP_LED_On
+ 174              	.LVL16:
+ 175 0062 09E0     		b	.L10
+ 176              	.LVL17:
+ 177              	.L12:
+ 149:Core/Src/app_ethernet.c ****             
+ 150:Core/Src/app_ethernet.c ****           }
+ 151:Core/Src/app_ethernet.c ****           else
+ 152:Core/Src/app_ethernet.c ****           {
+ 153:Core/Src/app_ethernet.c ****             BSP_LED_On(LED3);
+ 178              		.loc 1 153 13 view .LVU38
+ 179 0064 0220     		movs	r0, #2
+ 180 0066 FFF7FEFF 		bl	BSP_LED_On
+ 181              	.LVL18:
+ 182              		.loc 1 153 13 is_stmt 0 view .LVU39
+ 183 006a 05E0     		b	.L10
+ 184              	.L9:
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 7
+
+
+ 154:Core/Src/app_ethernet.c ****           }
+ 155:Core/Src/app_ethernet.c ****         }
+ 156:Core/Src/app_ethernet.c ****       }
+ 157:Core/Src/app_ethernet.c ****       break;
+ 158:Core/Src/app_ethernet.c ****   case DHCP_LINK_DOWN:
+ 159:Core/Src/app_ethernet.c ****     {
+ 160:Core/Src/app_ethernet.c ****       /* Stop DHCP */
+ 161:Core/Src/app_ethernet.c ****       dhcp_stop(netif);
+ 185              		.loc 1 161 7 is_stmt 1 view .LVU40
+ 186 006c 2046     		mov	r0, r4
+ 187 006e FFF7FEFF 		bl	dhcp_stop
+ 188              	.LVL19:
+ 162:Core/Src/app_ethernet.c ****       DHCP_state = DHCP_OFF; 
+ 189              		.loc 1 162 7 view .LVU41
+ 190              		.loc 1 162 18 is_stmt 0 view .LVU42
+ 191 0072 0D4B     		ldr	r3, .L16
+ 192 0074 0022     		movs	r2, #0
+ 193 0076 1A70     		strb	r2, [r3]
+ 163:Core/Src/app_ethernet.c ****     }
+ 164:Core/Src/app_ethernet.c ****     break;
+ 194              		.loc 1 164 5 is_stmt 1 view .LVU43
+ 195              	.L10:
+ 165:Core/Src/app_ethernet.c ****     default: break;
+ 166:Core/Src/app_ethernet.c ****     }
+ 167:Core/Src/app_ethernet.c ****     
+ 168:Core/Src/app_ethernet.c ****     /* wait 250 ms */
+ 169:Core/Src/app_ethernet.c ****     osDelay(250);
+ 196              		.loc 1 169 5 view .LVU44
+ 197 0078 FA20     		movs	r0, #250
+ 198 007a FFF7FEFF 		bl	osDelay
+ 199              	.LVL20:
+ 106:Core/Src/app_ethernet.c ****   {
+ 200              		.loc 1 106 9 view .LVU45
+ 201              	.L13:
+ 101:Core/Src/app_ethernet.c ****   ip_addr_t netmask;
+ 202              		.loc 1 101 3 view .LVU46
+ 102:Core/Src/app_ethernet.c ****   ip_addr_t gw;
+ 203              		.loc 1 102 3 view .LVU47
+ 103:Core/Src/app_ethernet.c ****   struct dhcp *dhcp;
+ 204              		.loc 1 103 3 view .LVU48
+ 104:Core/Src/app_ethernet.c ****   
+ 205              		.loc 1 104 3 view .LVU49
+ 106:Core/Src/app_ethernet.c ****   {
+ 206              		.loc 1 106 3 view .LVU50
+ 108:Core/Src/app_ethernet.c ****     {
+ 207              		.loc 1 108 5 view .LVU51
+ 208 007e 0A4B     		ldr	r3, .L16
+ 209 0080 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 210 0082 DBB2     		uxtb	r3, r3
+ 211 0084 022B     		cmp	r3, #2
+ 212 0086 BFD0     		beq	.L8
+ 213 0088 052B     		cmp	r3, #5
+ 214 008a EFD0     		beq	.L9
+ 215 008c 012B     		cmp	r3, #1
+ 216 008e F3D1     		bne	.L10
+ 112:Core/Src/app_ethernet.c ****         ip_addr_set_zero_ip4(&netif->netmask);
+ 217              		.loc 1 112 9 view .LVU52
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 8
+
+
+ 218 0090 0023     		movs	r3, #0
+ 219 0092 6360     		str	r3, [r4, #4]
+ 113:Core/Src/app_ethernet.c ****         ip_addr_set_zero_ip4(&netif->gw);       
+ 220              		.loc 1 113 9 view .LVU53
+ 221 0094 A360     		str	r3, [r4, #8]
+ 114:Core/Src/app_ethernet.c ****         dhcp_start(netif);
+ 222              		.loc 1 114 9 view .LVU54
+ 223 0096 E360     		str	r3, [r4, #12]
+ 115:Core/Src/app_ethernet.c ****         DHCP_state = DHCP_WAIT_ADDRESS;
+ 224              		.loc 1 115 9 view .LVU55
+ 225 0098 2046     		mov	r0, r4
+ 226 009a FFF7FEFF 		bl	dhcp_start
+ 227              	.LVL21:
+ 116:Core/Src/app_ethernet.c ****       }
+ 228              		.loc 1 116 9 view .LVU56
+ 116:Core/Src/app_ethernet.c ****       }
+ 229              		.loc 1 116 20 is_stmt 0 view .LVU57
+ 230 009e 024B     		ldr	r3, .L16
+ 231 00a0 0222     		movs	r2, #2
+ 232 00a2 1A70     		strb	r2, [r3]
+ 118:Core/Src/app_ethernet.c ****       
+ 233              		.loc 1 118 7 is_stmt 1 view .LVU58
+ 234 00a4 E8E7     		b	.L10
+ 235              	.L17:
+ 236 00a6 00BF     		.align	2
+ 237              	.L16:
+ 238 00a8 00000000 		.word	.LANCHOR0
+ 239 00ac C0A8000A 		.word	167815360
+ 240              		.cfi_endproc
+ 241              	.LFE172:
+ 243              		.global	DHCP_state
+ 244              		.section	.bss.DHCP_state,"aw",%nobits
+ 245              		.set	.LANCHOR0,. + 0
+ 248              	DHCP_state:
+ 249 0000 00       		.space	1
+ 250              		.text
+ 251              	.Letext0:
+ 252              		.file 2 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\machine\\_default_ty
+ 253              		.file 3 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\lock.h"
+ 254              		.file 4 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\_types.h"
+ 255              		.file 5 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\lib\\gcc\\arm-none-eabi\\9.2.1\\include\\std
+ 256              		.file 6 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\reent.h"
+ 257              		.file 7 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\stdlib.h"
+ 258              		.file 8 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 259              		.file 9 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\time.h"
+ 260              		.file 10 "Middlewares/Third_Party/LwIP/src/include/lwip/arch.h"
+ 261              		.file 11 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\ctype.h"
+ 262              		.file 12 "Drivers/CMSIS/Include/core_cm7.h"
+ 263              		.file 13 "Drivers/CMSIS/Device/ST/STM32F7xx/Include/system_stm32f7xx.h"
+ 264              		.file 14 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h"
+ 265              		.file 15 "Drivers/BSP/STM32F7xx_Nucleo_144/stm32f7xx_nucleo_144.h"
+ 266              		.file 16 "Middlewares/Third_Party/LwIP/src/include/lwip/err.h"
+ 267              		.file 17 "Middlewares/Third_Party/LwIP/src/include/lwip/ip4_addr.h"
+ 268              		.file 18 "Middlewares/Third_Party/LwIP/src/include/lwip/ip_addr.h"
+ 269              		.file 19 "Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h"
+ 270              		.file 20 "Middlewares/Third_Party/LwIP/src/include/lwip/memp.h"
+ 271              		.file 21 "Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_priv.h"
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 9
+
+
+ 272              		.file 22 "Middlewares/Third_Party/LwIP/src/include/lwip/netif.h"
+ 273              		.file 23 "Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip4.h"
+ 274              		.file 24 "Middlewares/Third_Party/LwIP/src/include/lwip/ip.h"
+ 275              		.file 25 "Middlewares/Third_Party/LwIP/src/include/lwip/udp.h"
+ 276              		.file 26 "Middlewares/Third_Party/LwIP/src/include/lwip/dhcp.h"
+ 277              		.file 27 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ARM GAS  D:\Dev\msys64\tmp\ccKu9eWw.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 app_ethernet.c
+D:\Dev\msys64\tmp\ccKu9eWw.s:18     .text.User_notification:00000000 $t
+D:\Dev\msys64\tmp\ccKu9eWw.s:26     .text.User_notification:00000000 User_notification
+D:\Dev\msys64\tmp\ccKu9eWw.s:73     .text.User_notification:00000024 $d
+D:\Dev\msys64\tmp\ccKu9eWw.s:78     .text.DHCP_thread:00000000 $t
+D:\Dev\msys64\tmp\ccKu9eWw.s:85     .text.DHCP_thread:00000000 DHCP_thread
+D:\Dev\msys64\tmp\ccKu9eWw.s:238    .text.DHCP_thread:000000a8 $d
+D:\Dev\msys64\tmp\ccKu9eWw.s:248    .bss.DHCP_state:00000000 DHCP_state
+D:\Dev\msys64\tmp\ccKu9eWw.s:249    .bss.DHCP_state:00000000 $d
+
+UNDEFINED SYMBOLS
+BSP_LED_On
+dhcp_supplied_address
+dhcp_stop
+netif_set_addr
+BSP_LED_Off
+osDelay
+dhcp_start

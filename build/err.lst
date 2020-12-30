@@ -1,0 +1,197 @@
+ARM GAS  D:\Dev\msys64\tmp\ccgTAnfe.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"err.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.err_to_errno,"ax",%progbits
+  18              		.align	1
+  19              		.global	err_to_errno
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv5-sp-d16
+  26              	err_to_errno:
+  27              	.LVL0:
+  28              	.LFB30:
+  29              		.file 1 "Middlewares/Third_Party/LwIP/src/api/err.c"
+   1:Middlewares/Third_Party/LwIP/src/api/err.c **** /**
+   2:Middlewares/Third_Party/LwIP/src/api/err.c ****  * @file
+   3:Middlewares/Third_Party/LwIP/src/api/err.c ****  * Error Management module
+   4:Middlewares/Third_Party/LwIP/src/api/err.c ****  *
+   5:Middlewares/Third_Party/LwIP/src/api/err.c ****  */
+   6:Middlewares/Third_Party/LwIP/src/api/err.c **** 
+   7:Middlewares/Third_Party/LwIP/src/api/err.c **** /*
+   8:Middlewares/Third_Party/LwIP/src/api/err.c ****  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+   9:Middlewares/Third_Party/LwIP/src/api/err.c ****  * All rights reserved.
+  10:Middlewares/Third_Party/LwIP/src/api/err.c ****  *
+  11:Middlewares/Third_Party/LwIP/src/api/err.c ****  * Redistribution and use in source and binary forms, with or without modification,
+  12:Middlewares/Third_Party/LwIP/src/api/err.c ****  * are permitted provided that the following conditions are met:
+  13:Middlewares/Third_Party/LwIP/src/api/err.c ****  *
+  14:Middlewares/Third_Party/LwIP/src/api/err.c ****  * 1. Redistributions of source code must retain the above copyright notice,
+  15:Middlewares/Third_Party/LwIP/src/api/err.c ****  *    this list of conditions and the following disclaimer.
+  16:Middlewares/Third_Party/LwIP/src/api/err.c ****  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  17:Middlewares/Third_Party/LwIP/src/api/err.c ****  *    this list of conditions and the following disclaimer in the documentation
+  18:Middlewares/Third_Party/LwIP/src/api/err.c ****  *    and/or other materials provided with the distribution.
+  19:Middlewares/Third_Party/LwIP/src/api/err.c ****  * 3. The name of the author may not be used to endorse or promote products
+  20:Middlewares/Third_Party/LwIP/src/api/err.c ****  *    derived from this software without specific prior written permission.
+  21:Middlewares/Third_Party/LwIP/src/api/err.c ****  *
+  22:Middlewares/Third_Party/LwIP/src/api/err.c ****  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+  23:Middlewares/Third_Party/LwIP/src/api/err.c ****  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+  24:Middlewares/Third_Party/LwIP/src/api/err.c ****  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+  25:Middlewares/Third_Party/LwIP/src/api/err.c ****  * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+  26:Middlewares/Third_Party/LwIP/src/api/err.c ****  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+  27:Middlewares/Third_Party/LwIP/src/api/err.c ****  * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:Middlewares/Third_Party/LwIP/src/api/err.c ****  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:Middlewares/Third_Party/LwIP/src/api/err.c ****  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ARM GAS  D:\Dev\msys64\tmp\ccgTAnfe.s 			page 2
+
+
+  30:Middlewares/Third_Party/LwIP/src/api/err.c ****  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+  31:Middlewares/Third_Party/LwIP/src/api/err.c ****  * OF SUCH DAMAGE.
+  32:Middlewares/Third_Party/LwIP/src/api/err.c ****  *
+  33:Middlewares/Third_Party/LwIP/src/api/err.c ****  * This file is part of the lwIP TCP/IP stack.
+  34:Middlewares/Third_Party/LwIP/src/api/err.c ****  *
+  35:Middlewares/Third_Party/LwIP/src/api/err.c ****  * Author: Adam Dunkels <adam@sics.se>
+  36:Middlewares/Third_Party/LwIP/src/api/err.c ****  *
+  37:Middlewares/Third_Party/LwIP/src/api/err.c ****  */
+  38:Middlewares/Third_Party/LwIP/src/api/err.c **** 
+  39:Middlewares/Third_Party/LwIP/src/api/err.c **** #include "lwip/err.h"
+  40:Middlewares/Third_Party/LwIP/src/api/err.c **** #include "lwip/def.h"
+  41:Middlewares/Third_Party/LwIP/src/api/err.c **** #include "lwip/sys.h"
+  42:Middlewares/Third_Party/LwIP/src/api/err.c **** 
+  43:Middlewares/Third_Party/LwIP/src/api/err.c **** #include "lwip/errno.h"
+  44:Middlewares/Third_Party/LwIP/src/api/err.c **** 
+  45:Middlewares/Third_Party/LwIP/src/api/err.c **** #if !NO_SYS
+  46:Middlewares/Third_Party/LwIP/src/api/err.c **** /** Table to quickly map an lwIP error (err_t) to a socket error
+  47:Middlewares/Third_Party/LwIP/src/api/err.c ****   * by using -err as an index */
+  48:Middlewares/Third_Party/LwIP/src/api/err.c **** static const int err_to_errno_table[] = {
+  49:Middlewares/Third_Party/LwIP/src/api/err.c ****   0,             /* ERR_OK          0      No error, everything OK. */
+  50:Middlewares/Third_Party/LwIP/src/api/err.c ****   ENOMEM,        /* ERR_MEM        -1      Out of memory error.     */
+  51:Middlewares/Third_Party/LwIP/src/api/err.c ****   ENOBUFS,       /* ERR_BUF        -2      Buffer error.            */
+  52:Middlewares/Third_Party/LwIP/src/api/err.c ****   EWOULDBLOCK,   /* ERR_TIMEOUT    -3      Timeout                  */
+  53:Middlewares/Third_Party/LwIP/src/api/err.c ****   EHOSTUNREACH,  /* ERR_RTE        -4      Routing problem.         */
+  54:Middlewares/Third_Party/LwIP/src/api/err.c ****   EINPROGRESS,   /* ERR_INPROGRESS -5      Operation in progress    */
+  55:Middlewares/Third_Party/LwIP/src/api/err.c ****   EINVAL,        /* ERR_VAL        -6      Illegal value.           */
+  56:Middlewares/Third_Party/LwIP/src/api/err.c ****   EWOULDBLOCK,   /* ERR_WOULDBLOCK -7      Operation would block.   */
+  57:Middlewares/Third_Party/LwIP/src/api/err.c ****   EADDRINUSE,    /* ERR_USE        -8      Address in use.          */
+  58:Middlewares/Third_Party/LwIP/src/api/err.c ****   EALREADY,      /* ERR_ALREADY    -9      Already connecting.      */
+  59:Middlewares/Third_Party/LwIP/src/api/err.c ****   EISCONN,       /* ERR_ISCONN     -10     Conn already established.*/
+  60:Middlewares/Third_Party/LwIP/src/api/err.c ****   ENOTCONN,      /* ERR_CONN       -11     Not connected.           */
+  61:Middlewares/Third_Party/LwIP/src/api/err.c ****   -1,            /* ERR_IF         -12     Low-level netif error    */
+  62:Middlewares/Third_Party/LwIP/src/api/err.c ****   ECONNABORTED,  /* ERR_ABRT       -13     Connection aborted.      */
+  63:Middlewares/Third_Party/LwIP/src/api/err.c ****   ECONNRESET,    /* ERR_RST        -14     Connection reset.        */
+  64:Middlewares/Third_Party/LwIP/src/api/err.c ****   ENOTCONN,      /* ERR_CLSD       -15     Connection closed.       */
+  65:Middlewares/Third_Party/LwIP/src/api/err.c ****   EIO            /* ERR_ARG        -16     Illegal argument.        */
+  66:Middlewares/Third_Party/LwIP/src/api/err.c **** };
+  67:Middlewares/Third_Party/LwIP/src/api/err.c **** 
+  68:Middlewares/Third_Party/LwIP/src/api/err.c **** int
+  69:Middlewares/Third_Party/LwIP/src/api/err.c **** err_to_errno(err_t err)
+  70:Middlewares/Third_Party/LwIP/src/api/err.c **** {
+  30              		.loc 1 70 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  71:Middlewares/Third_Party/LwIP/src/api/err.c ****   if ((err > 0) || (-err >= (err_t)LWIP_ARRAYSIZE(err_to_errno_table))) {
+  35              		.loc 1 71 3 view .LVU1
+  36              		.loc 1 71 17 is_stmt 0 view .LVU2
+  37 0000 00F11003 		add	r3, r0, #16
+  38 0004 DBB2     		uxtb	r3, r3
+  39              		.loc 1 71 6 view .LVU3
+  40 0006 102B     		cmp	r3, #16
+  41 0008 04D8     		bhi	.L3
+  72:Middlewares/Third_Party/LwIP/src/api/err.c ****     return EIO;
+  73:Middlewares/Third_Party/LwIP/src/api/err.c ****   }
+  74:Middlewares/Third_Party/LwIP/src/api/err.c ****   return err_to_errno_table[-err];
+ARM GAS  D:\Dev\msys64\tmp\ccgTAnfe.s 			page 3
+
+
+  42              		.loc 1 74 3 is_stmt 1 view .LVU4
+  43              		.loc 1 74 29 is_stmt 0 view .LVU5
+  44 000a 4042     		rsbs	r0, r0, #0
+  45              	.LVL1:
+  46              		.loc 1 74 28 view .LVU6
+  47 000c 024B     		ldr	r3, .L4
+  48 000e 53F82000 		ldr	r0, [r3, r0, lsl #2]
+  49 0012 7047     		bx	lr
+  50              	.LVL2:
+  51              	.L3:
+  72:Middlewares/Third_Party/LwIP/src/api/err.c ****     return EIO;
+  52              		.loc 1 72 12 view .LVU7
+  53 0014 0520     		movs	r0, #5
+  54              	.LVL3:
+  75:Middlewares/Third_Party/LwIP/src/api/err.c **** }
+  55              		.loc 1 75 1 view .LVU8
+  56 0016 7047     		bx	lr
+  57              	.L5:
+  58              		.align	2
+  59              	.L4:
+  60 0018 00000000 		.word	.LANCHOR0
+  61              		.cfi_endproc
+  62              	.LFE30:
+  64              		.section	.rodata.err_to_errno_table,"a"
+  65              		.align	2
+  66              		.set	.LANCHOR0,. + 0
+  69              	err_to_errno_table:
+  70 0000 00000000 		.word	0
+  71 0004 0C000000 		.word	12
+  72 0008 69000000 		.word	105
+  73 000c 0B000000 		.word	11
+  74 0010 71000000 		.word	113
+  75 0014 73000000 		.word	115
+  76 0018 16000000 		.word	22
+  77 001c 0B000000 		.word	11
+  78 0020 62000000 		.word	98
+  79 0024 72000000 		.word	114
+  80 0028 6A000000 		.word	106
+  81 002c 6B000000 		.word	107
+  82 0030 FFFFFFFF 		.word	-1
+  83 0034 67000000 		.word	103
+  84 0038 68000000 		.word	104
+  85 003c 6B000000 		.word	107
+  86 0040 05000000 		.word	5
+  87              		.text
+  88              	.Letext0:
+  89              		.file 2 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\machine\\_default_ty
+  90              		.file 3 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\lock.h"
+  91              		.file 4 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\_types.h"
+  92              		.file 5 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\lib\\gcc\\arm-none-eabi\\9.2.1\\include\\std
+  93              		.file 6 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\reent.h"
+  94              		.file 7 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\stdlib.h"
+  95              		.file 8 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\sys\\_stdint.h"
+  96              		.file 9 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\time.h"
+  97              		.file 10 "Middlewares/Third_Party/LwIP/src/include/lwip/arch.h"
+  98              		.file 11 "d:\\dev\\gcc-arm-none-eabi\\9_2019_q4-major\\arm-none-eabi\\include\\ctype.h"
+  99              		.file 12 "Middlewares/Third_Party/LwIP/src/include/lwip/err.h"
+ARM GAS  D:\Dev\msys64\tmp\ccgTAnfe.s 			page 4
+
+
+ 100              		.file 13 "Core/Inc/FreeRTOSConfig.h"
+ 101              		.file 14 "Middlewares/Third_Party/LwIP/src/include/lwip/errno.h"
+ARM GAS  D:\Dev\msys64\tmp\ccgTAnfe.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 err.c
+D:\Dev\msys64\tmp\ccgTAnfe.s:18     .text.err_to_errno:00000000 $t
+D:\Dev\msys64\tmp\ccgTAnfe.s:26     .text.err_to_errno:00000000 err_to_errno
+D:\Dev\msys64\tmp\ccgTAnfe.s:60     .text.err_to_errno:00000018 $d
+D:\Dev\msys64\tmp\ccgTAnfe.s:65     .rodata.err_to_errno_table:00000000 $d
+D:\Dev\msys64\tmp\ccgTAnfe.s:69     .rodata.err_to_errno_table:00000000 err_to_errno_table
+
+NO UNDEFINED SYMBOLS
