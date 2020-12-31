@@ -307,7 +307,6 @@ $(BUILD_DIR):
 # for details see http://openocd.org/doc/html/Flash-Programming.html
 #######################################
 flash:
-	#openocd -f stm32f746_nucleo144.cfg -c "program $(BUILD_DIR)/$(TARGET).elf verify reset exit"
 	openocd -f board/st_nucleo_f7.cfg  -c "program $(BUILD_DIR)/$(TARGET).elf verify reset exit"
 
 #######################################
